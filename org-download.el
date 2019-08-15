@@ -479,10 +479,11 @@ It's inserted before the image link and is used to annotate it.")
     (if (looking-back "^[ \t]+" line-beg)
         (delete-region (match-beginning 0) (match-end 0))
       (newline))
+    (indent-according-to-mode)
     (insert (funcall org-download-annotate-function link))
-    (insert "\n")
+    (newline-and-indent)
     (dolist (attr org-download-image-attr-list)
-      (insert attr "\n"))
+      (newline-and-indent))
     (insert (if (= org-download-image-html-width 0)
                 ""
               (format "#+attr_html: :width %dpx\n" org-download-image-html-width)))
@@ -492,6 +493,7 @@ It's inserted before the image link and is used to annotate it.")
     (insert (if (= org-download-image-org-width 0)
                 ""
               (format "#+attr_org: :width %dpx\n" org-download-image-org-width)))
+    (indent-according-to-mode)
     (insert
      (format org-download-link-format
              (org-link-escape
